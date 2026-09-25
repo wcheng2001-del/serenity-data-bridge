@@ -1,7 +1,7 @@
 {
   "name": "serenity-data-bridge",
-  "version": "0.1.0",
-  "description": "Read-only A-share market data tools for evidence-backed Serenity-style research.",
+  "version": "0.2.0",
+  "description": "Read-only A-share and US-equity data tools for evidence-backed Serenity-style research.",
   "author": {
     "name": "wcheng2001-del",
     "url": "https://github.com/wcheng2001-del"
@@ -9,18 +9,19 @@
   "homepage": "https://github.com/wcheng2001-del/serenity-data-bridge",
   "repository": "https://github.com/wcheng2001-del/serenity-data-bridge",
   "license": "MIT",
-  "keywords": ["a-share", "market-data", "mcp", "agent-skill", "investment-research"],
+  "keywords": ["a-share", "us-equity", "market-data", "mcp", "agent-skill", "investment-research"],
   "skills": "./skills/",
   "interface": {
     "displayName": "Serenity Data Bridge",
-    "shortDescription": "Read-only A-share data for research agents.",
-    "longDescription": "Connects Codex and compatible agents to A-share prices, fundamentals, financial statements, news, ownership activity, sectors, and market signals through a local MCP server.",
+    "shortDescription": "Read-only A-share and US-equity data.",
+    "longDescription": "Connects Codex and compatible agents to A-share and US-equity prices, fundamentals, financial statements, news, and ownership activity through a local MCP server, with additional sector and market signals for A shares.",
     "developerName": "wcheng2001-del",
     "category": "Finance",
-    "capabilities": ["Read-only", "Live data", "A-share research"],
+    "capabilities": ["Read-only", "Live data", "A-share research", "US-equity research"],
     "defaultPrompt": [
       "Research an A-share company using current market and filing data.",
-      "Check the fundamentals, news, and risk signals for an A-share ticker."
+      "Check the fundamentals, news, and risk signals for an A-share ticker.",
+      "Analyze NVDA using current price, fundamentals, filings, news, and insider data."
     ]
   },
   "mcpServers": "./.mcp.json"

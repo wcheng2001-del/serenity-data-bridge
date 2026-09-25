@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import subprocess
-import sys
 import venv
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM = (
@@ -47,6 +45,7 @@ def main() -> None:
         "parsel>=1.10",
         "mootdx==0.11.7",
         "stockstats>=0.6.5",
+        "yfinance>=0.2.63",
     )
     run(
         provider_python,

@@ -5,7 +5,9 @@ From the repository root, create the isolated environments and run a command:
 ```powershell
 python scripts/setup.py
 serenity-data fundamentals 600519 --as-of 2026-09-25
+serenity-data fundamentals NVDA --as-of 2026-09-25
 serenity-data prices 600519 --start 2026-08-01 --end 2026-09-25
+serenity-data statement NVDA income --frequency quarterly --as-of 2026-09-25
 serenity-data news 600519 --start 2026-09-01 --end 2026-09-25
 ```
 

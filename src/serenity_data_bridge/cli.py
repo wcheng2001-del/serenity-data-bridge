@@ -11,7 +11,9 @@ from .bridge import DataBridge
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="serenity-data", description="Read-only A-share data bridge")
+    parser = argparse.ArgumentParser(
+        prog="serenity-data", description="Read-only A-share and US-equity data bridge"
+    )
     sub = parser.add_subparsers(dest="command", required=True)
 
     prices = sub.add_parser("prices")

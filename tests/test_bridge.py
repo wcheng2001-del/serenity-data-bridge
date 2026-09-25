@@ -21,7 +21,8 @@ class DataBridgeTests(unittest.TestCase):
             "SH600519", "2026-09-01", "2026-09-25"
         )
         self.assertEqual(result["ticker"], "600519")
-        self.assertEqual(provider.calls[0][0], "get_stock_data")
+        self.assertEqual(result["market"], "a_share")
+        self.assertEqual(provider.calls[0][0], "a_share.get_stock_data")
         self.assertEqual(
             provider.calls[0][1], ("600519", "2026-09-01", "2026-09-25")
         )
@@ -43,8 +44,22 @@ class DataBridgeTests(unittest.TestCase):
         DataBridge(provider).financial_statement(
             "000001", "cashflow", "annual", "2026-09-25"
         )
-        self.assertEqual(provider.calls[0][0], "get_cashflow")
+        self.assertEqual(provider.calls[0][0], "a_share.get_cashflow")
         self.assertEqual(provider.calls[0][1], ("000001", "annual", "2026-09-25"))
+
+    def test_us_ticker_routes_to_yfinance_provider(self) -> None:
+        provider = FakeProvider()
+        result = DataBridge(provider).fundamentals("nvda", "2026-09-25")
+        self.assertEqual(result["ticker"], "NVDA")
+        self.assertEqual(result["market"], "us")
+        self.assertEqual(provider.calls[0][0], "us.get_fundamentals")
+        self.assertEqual(provider.calls[0][1], ("NVDA", "2026-09-25"))
+
+    def test_a_share_only_tools_reject_us_tickers(self) -> None:
+        provider = FakeProvider()
+        with self.assertRaisesRegex(ValueError, "A shares only"):
+            DataBridge(provider).sector_context("NVDA", "2026-09-25")
+        self.assertEqual(provider.calls, [])
 
     def test_market_signal_bounds_are_enforced(self) -> None:
         with self.assertRaisesRegex(ValueError, "look_back_days"):

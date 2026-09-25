@@ -1,4 +1,4 @@
 interface:
   display_name: "Serenity Data Bridge"
-  short_description: "Read-only A-share market data for research"
-  default_prompt: "Use current A-share data to research this company, preserve source dates, and separate facts from inference."
+  short_description: "Read-only A-share and US-equity research data"
+  default_prompt: "Use current equity data to research this company, preserve source dates, verify material claims against official filings, and separate facts from inference."

@@ -8,7 +8,6 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-
 SOURCE_REPOSITORY = "https://github.com/wcheng2001-del/TradingAgents-Astock-auto"
 SOURCE_COMMIT = "001c8463302707faf6cb8843c864b08454836060"
 
