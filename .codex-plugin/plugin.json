@@ -1,0 +1,27 @@
+{
+  "name": "serenity-data-bridge",
+  "version": "0.1.0",
+  "description": "Read-only A-share market data tools for evidence-backed Serenity-style research.",
+  "author": {
+    "name": "wcheng2001-del",
+    "url": "https://github.com/wcheng2001-del"
+  },
+  "homepage": "https://github.com/wcheng2001-del/serenity-data-bridge",
+  "repository": "https://github.com/wcheng2001-del/serenity-data-bridge",
+  "license": "MIT",
+  "keywords": ["a-share", "market-data", "mcp", "agent-skill", "investment-research"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Serenity Data Bridge",
+    "shortDescription": "Read-only A-share data for research agents.",
+    "longDescription": "Connects Codex and compatible agents to A-share prices, fundamentals, financial statements, news, ownership activity, sectors, and market signals through a local MCP server.",
+    "developerName": "wcheng2001-del",
+    "category": "Finance",
+    "capabilities": ["Read-only", "Live data", "A-share research"],
+    "defaultPrompt": [
+      "Research an A-share company using current market and filing data.",
+      "Check the fundamentals, news, and risk signals for an A-share ticker."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

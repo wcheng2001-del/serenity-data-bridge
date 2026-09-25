@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "serenity_data": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["scripts/run_mcp.py"],
+      "cwd": "."
+    }
+  }
+}
