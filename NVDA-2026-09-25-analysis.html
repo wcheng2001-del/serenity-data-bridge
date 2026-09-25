@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>NVDA 研究复盘｜2026-09-25</title>
+  <style>
+    :root {
+      --ink: #192622;
+      --muted: #5b6c65;
+      --line: #d7e3da;
+      --paper: #f6f8f4;
+      --card: #ffffff;
+      --green: #19734a;
+      --dark-green: #103e2f;
+      --mint: #e6f5e9;
+      --amber: #9c5d13;
+      --light-amber: #fff3df;
+      --red: #a23531;
+      --light-red: #fff0ed;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.72 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    a { color: var(--green); text-underline-offset: 3px; }
+    a:hover { color: var(--dark-green); }
+    .shell { max-width: 1120px; margin: 0 auto; padding: 0 28px 80px; }
+    .hero {
+      background: radial-gradient(circle at 88% 4%, #2b8e5c 0, transparent 33%),
+        linear-gradient(135deg, #103b2d 0%, #102d27 66%, #101f1c 100%);
+      color: white;
+      padding: 56px 0 46px;
+    }
+    .hero-inner { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+    .eyebrow { margin: 0 0 12px; color: #a7dfbc; font-size: 12px; letter-spacing: .16em; font-weight: 700; }
+    h1 { margin: 0; font-size: clamp(34px, 4.8vw, 62px); line-height: 1.15; letter-spacing: -.045em; }
+    .subtitle { max-width: 760px; margin: 18px 0 0; color: #d7eee0; font-size: 18px; line-height: 1.65; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .pill { border: 1px solid #5a9d74; border-radius: 999px; padding: 6px 12px; color: #e2f7e9; font-size: 13px; }
+    nav { display: flex; flex-wrap: wrap; gap: 10px 22px; padding: 19px 0 8px; font-size: 14px; }
+    nav a { color: var(--muted); text-decoration: none; font-weight: 600; }
+    nav a:hover { color: var(--green); text-decoration: underline; }
+    section { scroll-margin-top: 20px; margin-top: 40px; }
+    h2 { margin: 0 0 16px; font-size: 27px; letter-spacing: -.025em; line-height: 1.32; }
+    h3 { margin: 0 0 10px; font-size: 18px; line-height: 1.45; }
+    p { margin: 10px 0 0; }
+    .lead { font-size: 18px; line-height: 1.7; }
+    .grid { display: grid; gap: 16px; }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; box-shadow: 0 8px 24px #17322508; }
+    .kicker { margin: 0 0 8px; color: var(--muted); font-size: 12px; letter-spacing: .07em; font-weight: 750; text-transform: uppercase; }
+    .big { font-size: clamp(27px, 3vw, 38px); line-height: 1.1; font-weight: 800; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .card small, .note { display: block; color: var(--muted); font-size: 13px; line-height: 1.55; margin-top: 9px; }
+    .verdict { border: 1px solid #b9d6c2; background: linear-gradient(125deg, #e7f5e9, #f8fcf8); padding: 26px 30px; border-radius: 20px; }
+    .verdict strong { color: var(--dark-green); }
+    .tag { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 750; white-space: nowrap; }
+    .tag.fact { background: var(--mint); color: var(--green); }
+    .tag.read { background: #e8effa; color: #2f5d9a; }
+    .tag.risk { background: var(--light-amber); color: var(--amber); }
+    .tag.reject { background: var(--light-red); color: var(--red); }
+    .scroll { overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: 18px; }
+    table { width: 100%; border-collapse: collapse; min-width: 690px; }
+    th, td { padding: 13px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { font-size: 13px; color: var(--muted); background: #f0f6f1; }
+    tr:last-child td { border-bottom: 0; }
+    td.number, th.number { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .chart { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 24px; }
+    .chart-grid { display: grid; gap: 16px; margin-top: 16px; }
+    .bar-row { display: grid; grid-template-columns: 118px minmax(0, 1fr) 78px; gap: 12px; align-items: center; font-size: 14px; }
+    .bar-track { height: 22px; background: #edf3ed; border-radius: 7px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 7px; background: linear-gradient(90deg, #52b978, #15804b); }
+    .bar-row:last-child .bar-fill { background: linear-gradient(90deg, #8cbd56, #5a9c1d); }
+    .bar-value { font-variant-numeric: tabular-nums; font-weight: 750; text-align: right; }
+    .callout { padding: 18px 22px; border-left: 4px solid var(--amber); background: var(--light-amber); border-radius: 0 12px 12px 0; }
+    .callout.red { border-color: var(--red); background: var(--light-red); }
+    .mini-list { margin: 12px 0 0; padding-left: 22px; }
+    .mini-list li { margin: 7px 0; }
+    .case { border-left: 4px solid var(--green); }
+    .case.bear { border-left-color: var(--red); }
+    .case.watch { border-left-color: var(--amber); }
+    .formula { display: inline-block; margin: 3px 0; padding: 5px 9px; border-radius: 7px; background: #edf3ed; font-size: 13px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .sources { counter-reset: ref; padding: 0; list-style: none; }
+    .sources li { padding: 13px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+    .sources li:last-child { border-bottom: 0; }
+    .source-id { display: inline-block; min-width: 43px; font-size: 12px; color: var(--muted); font-weight: 800; }
+    footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    @media (max-width: 800px) {
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 90px minmax(0, 1fr) 72px; gap: 8px; }
+      .shell, .hero-inner { padding-left: 18px; padding-right: 18px; }
+      .card { padding: 19px; }
+    }
+    @media print {
+      body { background: white; color: black; font-size: 12px; }
+      .hero { color: black; background: white; border-bottom: 2px solid #222; padding: 12px 0; }
+      .hero .eyebrow, .hero .subtitle, .pill { color: #222; }
+      .pill { border-color: #777; }
+      nav { display: none; }
+      .shell { max-width: none; padding: 0 10px; }
+      section { margin-top: 24px; break-inside: avoid-page; }
+      .card, .chart, .scroll, .verdict { box-shadow: none; border-color: #aaa; }
+      a { color: black; }
+      footer { margin-top: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">SERENITY DATA BRIDGE · SOURCE CHECKED RESEARCH</p>
+      <h1>NVDA：增长兑现，风险沿着资金链上移</h1>
+      <p class="subtitle">重新分析 NVIDIA 的经营数据、财报质量、估值与关键风险。每项核心判断都能追溯到数据和原始文件。</p>
+      <div class="meta">
+        <span class="pill">研究日期：2026-09-25</span>
+        <span class="pill">行情快照：10:39 美西时间，盘中</span>
+        <span class="pill">财报基准：FY2027 Q2，季度截至 2026-07-26</span>
+        <span class="pill">计价单位：美元</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <nav aria-label="报告目录">
+      <a href="#judgment">总体判断</a><a href="#numbers">关键数据</a><a href="#growth">增长质量</a>
+      <a href="#cash">现金与估值</a><a href="#risks">风险清单</a><a href="#decision">跟踪条件</a>
+      <a href="#audit">数据审计</a><a href="#sources">资料来源</a>
+    </nav>
+
+    <section id="judgment">
+      <div class="verdict">
+        <span class="tag read">分析判断</span>
+        <h2 style="margin-top:12px">经营判断偏正面；对股价保持条件性判断</h2>
+        <p class="lead">NVIDIA 上季收入同比翻倍、数据中心收入占比超过九成，75% 毛利率和强劲的下一季指引支持其平台优势。<strong>我不会只凭 14.3 倍“远期 PE”判断便宜</strong>：这一数值来自二手数据的预测字段，预测期间和共识构成并不透明。更值得盯紧的是应收账款、库存以及为客户建设 AI 基础设施所承担的长期承诺。</p>
+        <p class="note">判断的有效期：截至本报告所列时间。这里评估的是研究论点，不是给定投资期限或持仓规模的个人买卖指令。</p>
+      </div>
+    </section>
+
+    <section id="numbers">
+      <h2>一眼看清：哪些数字支撑判断</h2>
+      <div class="grid grid-3">
+        <article class="card"><p class="kicker">盘中价格 · 二手行情</p><div class="big">$224.89</div><small>9 月 25 日 10:39 PT 的插件快照；当天收盘价尚未形成。前一完整交易日收盘 $224.58。<a href="#source-s4">[S4]</a></small></article>
+        <article class="card"><p class="kicker">FY27 Q2 收入 · 公司披露</p><div class="big">$96.221B</div><small>同比 +106%；环比 +18%。其中数据中心 $89.023B，占 92.5%。<a href="#source-s1">[S1]</a></small></article>
+        <article class="card"><p class="kicker">FY27 Q2 毛利率 · GAAP</p><div class="big">75.0%</div><small>同比上升 2.6 个百分点；营业利润率约 66.2%。<a href="#source-s1">[S1]</a></small></article>
+      </div>
+      <div class="scroll" style="margin-top:16px">
+        <table>
+          <thead><tr><th>项目</th><th class="number">本期</th><th class="number">比较值</th><th>我的解读</th><th>依据</th></tr></thead>
+          <tbody>
+            <tr><td>FY27 Q2 数据中心收入</td><td class="number">$89.023B</td><td class="number">去年同期 $41.096B</td><td>AI 基建是绝对主引擎；也意味着业务更集中。</td><td><a href="#source-s2">[S2]</a></td></tr>
+            <tr><td>FY27 Q3 收入指引</td><td class="number">$108B ±2%</td><td class="number">Q2 实际 $96.221B</td><td>中值环比约 +12.2%；这是管理层预测，不是已实现收入。</td><td><a href="#source-s1">[S1]</a></td></tr>
+            <tr><td>FY27 上半年官方自由现金流</td><td class="number">$69.895B</td><td class="number">去年同期 $39.584B</td><td>同比增长约 76.6%，但低于同期 GAAP 净利润 $118.010B。</td><td><a href="#source-s1">[S1]</a></td></tr>
+            <tr><td>应收账款</td><td class="number">$63.059B</td><td class="number">年初 $38.466B</td><td>增加约 63.9%；需跟踪回款和较长付款期限。</td><td><a href="#source-s2">[S2]</a></td></tr>
+            <tr><td>库存</td><td class="number">$31.575B</td><td class="number">年初 $21.403B</td><td>增加约 47.5%；反映备货，也增加需求预测失误的成本。</td><td><a href="#source-s2">[S2]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">B = 十亿美元。百分比均根据上述原始数值计算，可能因四舍五入与公司展示值相差 0.1 个百分点。</p>
+    </section>
+
+    <section id="growth">
+      <h2>增长为什么可信，也为什么需要继续验证</h2>
+      <div class="chart">
+        <h3>最近四个已披露季度收入</h3>
+        <p class="note">实际收入，单位：十亿美元。柱长按最高已实现季度归一化。<a href="#source-s1">[S1]</a> <a href="#source-s5">[S5]</a></p>
+        <div class="chart-grid" role="img" aria-label="收入由 FY26 Q3 的 57.006 十亿美元连续增长至 FY27 Q2 的 96.221 十亿美元">
+          <div class="bar-row"><span>FY26 Q3</span><div class="bar-track"><div class="bar-fill" style="width:59.2%"></div></div><span class="bar-value">57.006</span></div>
+          <div class="bar-row"><span>FY26 Q4</span><div class="bar-track"><div class="bar-fill" style="width:70.8%"></div></div><span class="bar-value">68.127</span></div>
+          <div class="bar-row"><span>FY27 Q1</span><div class="bar-track"><div class="bar-fill" style="width:84.8%"></div></div><span class="bar-value">81.615</span></div>
+          <div class="bar-row"><span>FY27 Q2</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-value">96.221</span></div>
+        </div>
+        <p style="margin-top:18px"><span class="formula">TTM 收入 = 57.006 + 68.127 + 81.615 + 96.221 = $302.969B</span></p>
+      </div>
+      <div class="grid grid-2" style="margin-top:16px">
+        <article class="card case"><span class="tag fact">已披露事实</span><h3 style="margin-top:11px">收入、毛利与产品迁移同时走强</h3><p>数据中心收入同比 +117%；毛利率较一年前提高至 75%。10‑Q 将增长主要归因于 Blackwell Ultra 基础设施放量，并称 Vera Rubin 已开始生产出货。季度营业利润达到 $63.734B，同比 +124%。<a href="#source-s1">[S1]</a> <a href="#source-s2">[S2]</a></p></article>
+        <article class="card case watch"><span class="tag read">我的推论</span><h3 style="margin-top:11px">护城河来自整个平台</h3><p>GPU、网络、软件和系统一起出售，使 NVIDIA 能在客户扩建 AI 数据中心时取得较高的内容价值。持续高毛利与营业利润率为这一推论提供支持；它本身并不能证明未来份额会一直不变。<a href="#source-s2">[S2]</a></p></article>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>新增事项：</strong>9 月 3 日提交的 8‑K 披露拟以约 $11.9B 收购 Hugging Face，并提供最多约 $1B 的员工留任股权安排；交易预计 2027 年上半年完成，仍需监管批准。它可能加强开发者与开放模型生态，但目前只是已签协议，不能计入已实现业绩。<a href="#source-s3">[S3]</a></div>
+    </section>
+
+    <section id="cash">
+      <h2>现金流与估值：这里最容易读错</h2>
+      <div class="grid grid-2">
+        <article class="card">
+          <h3>现金流正在增长，回款速度仍需看</h3>
+          <p>Q2 官方自由现金流为 $21.341B，低于 Q1 的 $48.554B；上半年合计 $69.895B。同期 GAAP 净利润为 $118.010B，现金流／净利润约 59%。10‑Q 显示上半年应收账款占用现金 $24.590B，库存占用 $10.204B，管理层还披露部分大客户获得更长付款期。<a href="#source-s1">[S1]</a> <a href="#source-s2">[S2]</a></p>
+          <p class="note">单季现金转换低不等于财报不真实；结合客户集中度与回款周期，后续两个季度是否回升才是关键。</p>
+        </article>
+        <article class="card">
+          <h3>GAAP 利润含有投资收益</h3>
+          <p>Q2 GAAP 净利润 $59.688B，但其中税前股权证券收益为 $7.771B；上半年此类收益达 $23.707B，主要由未实现估值收益推动。以 GAAP 净利计算的市盈率因此不能直接代表纯经营利润的估值。Q2 营业利润 $63.734B 更适合观察主营盈利趋势。<a href="#source-s2">[S2]</a></p>
+          <p class="note">这里没有自行估算“调整后 PE”，因为投资收益的税务与季度比较口径可能不同。</p>
+        </article>
+      </div>
+      <div class="scroll" style="margin-top:16px">
+        <table>
+          <thead><tr><th>估值观察</th><th class="number">快照值</th><th>计算或局限</th></tr></thead>
+          <tbody>
+            <tr><td>市值</td><td class="number">约 $5.43T</td><td>桥接器从 YFinance 获取，盘中会变动。<a href="#source-s4">[S4]</a></td></tr>
+            <tr><td>TTM 市销率</td><td class="number">约 17.9 倍</td><td>$5,430B ÷ 最近四季收入 $302.969B；是价格所含增长预期的提示，不是独立的价格目标。</td></tr>
+            <tr><td>TTM 市盈率</td><td class="number">约 28.4 倍</td><td>YFinance 字段；GAAP 净利包含股权投资收益，需谨慎解释。<a href="#source-s4">[S4]</a></td></tr>
+            <tr><td>“远期 PE”</td><td class="number">约 14.3 倍</td><td>YFinance 汇总值；对应预测 EPS 约 $15.68，但未明确预测年度与分析师样本，<strong>不作为投资结论的基石</strong>。<a href="#source-s4">[S4]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="risks">
+      <h2>三个足以改变判断的风险</h2>
+      <div class="grid grid-3">
+        <article class="card case bear"><span class="tag risk">风险 01</span><h3 style="margin-top:11px">需求转化为现金</h3><p>Q2 单一直接客户占收入 16%；五个直接客户合计占期末应收账款 70%。部分投资级客户的付款期限可延长至 90 天至一年。销售增长若持续快于回款，利润与现金的差距会扩大。<a href="#source-s2">[S2]</a></p></article>
+        <article class="card case bear"><span class="tag risk">风险 02</span><h3 style="margin-top:11px">供应与建设承诺</h3><p>截至 7 月 26 日，供应和产能承诺总额 $279B，高于上季 $119B。部分协议可取消、延期或调整，因此不能把全部金额当成债务；若终端部署延迟，库存和毛利仍可能受压。<a href="#source-s2">[S2]</a></p></article>
+        <article class="card case bear"><span class="tag risk">风险 03</span><h3 style="margin-top:11px">客户基建支持</h3><p>8 月与 SB Energy 相关的土地、电力和机房保证安排上限 $105B。它是按未来建设阶段逐步生效、在特定违约条件下触发的上限，<strong>不是现在已支付的现金，也不能直接等同净负债</strong>。<a href="#source-s2">[S2]</a></p></article>
+      </div>
+      <div class="callout red" style="margin-top:16px"><strong>地缘限制：</strong>Q3 的 $108B 收入指引没有假设任何中国数据中心计算收入；10‑Q 表示现行限制使公司很难向中国市场广泛提供有竞争力的数据中心计算产品。这既限制潜在增量，也可能给本土竞争者发展生态的时间。<a href="#source-s1">[S1]</a> <a href="#source-s2">[S2]</a></div>
+    </section>
+
+    <section id="decision">
+      <h2>下一季怎样更新这份判断</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>待核验问题</th><th>现有基线</th><th>怎样改变判断</th><th>性质</th></tr></thead>
+          <tbody>
+            <tr><td>收入是否达到指引？</td><td>$108B ±2%，区间约 $105.84B–$110.16B</td><td>落在区间且数据中心继续增长，支持需求论点；低于区间，重估需求或交付节奏。</td><td><span class="tag fact">指引 + 判断</span></td></tr>
+            <tr><td>毛利率是否保持？</td><td>Q3 指引 74% ±0.5 个百分点</td><td>明显低于 73.5%，需调查产品组合、成本及库存准备。</td><td><span class="tag fact">指引 + 判断</span></td></tr>
+            <tr><td>营运资金是否改善？</td><td>应收 $63.059B；库存 $31.575B；上半年 FCF $69.895B</td><td>若应收和库存继续快于收入增加，且 FCF 不恢复，下调盈利质量判断。</td><td><span class="tag read">分析监测</span></td></tr>
+            <tr><td>Rubin 与基建项目是否落地？</td><td>公司称 Rubin 开始生产出货；存在供给约束</td><td>检验出货、毛利和客户项目施工进度，不能只看订单或宣布的容量。</td><td><span class="tag read">分析监测</span></td></tr>
+            <tr><td>Hugging Face 交易进展？</td><td>已签协议，尚未完成</td><td>监管进度与并购后开放承诺，决定生态收益能否实现。</td><td><span class="tag read">分析监测</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="audit">
+      <h2>数据审计：采纳什么，保留什么</h2>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>数据层</th><th>处理方式</th><th>原因</th></tr></thead>
+          <tbody>
+            <tr><td>收入、利润、现金流、应收、库存</td><td><span class="tag fact">采用官方披露</span></td><td>以 NVIDIA 业绩公告和 SEC 10‑Q 为准；桥接器的季度收入及利润与原文相符。<a href="#source-s1">[S1]</a> <a href="#source-s2">[S2]</a></td></tr>
+            <tr><td>股价、市值、TTM / Forward PE</td><td><span class="tag read">盘中参考</span></td><td>来自桥接器的 YFinance 路由；盘中会变化，远期预测口径不透明。<a href="#source-s4">[S4]</a></td></tr>
+            <tr><td>基本面页自由现金流 $41.81B</td><td><span class="tag reject">排除</span></td><td>字段没有清晰期间定义；官方仅最近六个月就披露 $69.895B，故不据此得出 FCF 结论。<a href="#source-s1">[S1]</a> <a href="#source-s4">[S4]</a></td></tr>
+            <tr><td>YFinance 新闻和内部人列表</td><td><span class="tag risk">不作核心证据</span></td><td>新闻列表混入大量低相关项目；内部人条目缺少原始 Form 4 链接，无法仅凭汇总判定意图。</td></tr>
+            <tr><td>9 月 3 日拟收购事项</td><td><span class="tag fact">新增官方事件</span></td><td>源自 SEC 8‑K；与上一版分析相比，这是一项新的战略变量。<a href="#source-s3">[S3]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="sources">
+      <h2>原始资料与复核路径</h2>
+      <ol class="sources">
+        <li id="source-s1"><span class="source-id">[S1]</span><a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/" target="_blank" rel="noopener noreferrer">NVIDIA：FY2027 Q2 官方业绩公告</a>，2026-08-26。收入、毛利、GAAP / non-GAAP 业绩、Q3 指引及自由现金流调节表。</li>
+        <li id="source-s2"><span class="source-id">[S2]</span><a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm" target="_blank" rel="noopener noreferrer">SEC：NVIDIA Form 10‑Q</a>，报告期截至 2026-07-26。客户集中、应收、库存、股权投资收益、供应承诺和保证安排。</li>
+        <li id="source-s3"><span class="source-id">[S3]</span><a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000078/nvda-20260902.htm" target="_blank" rel="noopener noreferrer">SEC：NVIDIA Form 8‑K</a>，2026-09-03。拟收购 Hugging Face 的价格、条件及风险。</li>
+        <li id="source-s4"><span class="source-id">[S4]</span><a href="https://github.com/wcheng2001-del/serenity-data-bridge/tree/745687a58a95cec0e8031b332a188c63b20304a4" target="_blank" rel="noopener noreferrer">Serenity Data Bridge v0.2.0</a> 经固定版本上游 YFinance 路由读取，2026-09-25 10:39 PT 复核；<a href="https://finance.yahoo.com/quote/NVDA/" target="_blank" rel="noopener noreferrer">Yahoo Finance 的 NVDA 页面</a>供行情背景核查。盘中价格不是收盘价。</li>
+        <li id="source-s5"><span class="source-id">[S5]</span><a href="https://investor.nvidia.com/news/press-release-details/2025/NVIDIA-Announces-Financial-Results-for-Third-Quarter-Fiscal-2026/" target="_blank" rel="noopener noreferrer">FY2026 Q3 官方业绩</a>及<a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026/" target="_blank" rel="noopener noreferrer">FY2026 Q4 官方业绩</a>，用于最近四季收入序列。</li>
+      </ol>
+    </section>
+
+    <footer>
+      <p>方法：用只读数据桥获取行情与财务字段，再以公司投资者关系页面和 SEC 原文确认重要事实。表中“分析判断”是基于证据的推论，随新财报、交易进度和股价变化而更新。本静态页面不会自动刷新。</p>
+      <p>制作时间：2026-09-25 · 研究对象：NVIDIA Corporation（NASDAQ: NVDA）</p>
+    </footer>
+  </main>
+</body>
+</html>

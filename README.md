@@ -13,6 +13,10 @@ A portable Codex plugin that gives research agents read-only A-share and US-equi
 
 The bridge is read-only. It does not place trades or access brokerage accounts.
 
+## Research example
+
+The dated [NVDA research report](NVDA-2026-09-25-analysis.html) demonstrates how to combine bridge output with NVIDIA earnings releases and SEC filings. It includes the data snapshot, calculations, judgment, risks, and source links. Open the HTML file in a browser to read it; the page is static and does not refresh its market data.
+
 ## Temporary-clone workflow
 
 ```powershell
